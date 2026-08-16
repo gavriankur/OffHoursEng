@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Off-Hours Engineering — Ankur Gavri</title>
+<meta name="description" content="A builder's record: ten self-directed software projects across AI, mobile, computer vision, security, and cloud — shipped in personal time." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --navy:#0B1F3A;
+    --navy2:#132A4D;
+    --navy3:#1B3A63;
+    --teal:#1C7293;
+    --mint:#3DDC97;
+    --ink:#1B1F26;
+    --paper:#FFFFFF;
+    --muted:#5B6472;
+    --card:#F4F6F8;
+    --line:#E2E7EE;
+    --serif:'Source Serif 4', Georgia, serif;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; font-family:var(--sans); color:var(--ink); background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50; background:rgba(11,31,58,.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-family:var(--serif); font-weight:700; font-size:17px; color:#fff; letter-spacing:.2px;}
+  .brand span{color:var(--mint);}
+  nav ul{display:flex; gap:28px; list-style:none; margin:0; padding:0;}
+  nav a.navlink{color:#B9C6D9; font-size:13.5px; font-weight:500; transition:color .15s;}
+  nav a.navlink:hover{color:#fff;}
+  .navlinks{display:flex; align-items:center; gap:28px;}
+  @media (max-width:720px){ .navlinks ul{display:none;} }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:radial-gradient(1100px 520px at 82% -10%, #16345c 0%, var(--navy) 55%), var(--navy);
+    color:#fff; padding:96px 0 84px; position:relative; overflow:hidden;
+  }
+  header.hero::after{
+    content:""; position:absolute; inset:0;
+    background-image:radial-gradient(rgba(255,255,255,.055) 1px, transparent 1px);
+    background-size:26px 26px; opacity:.5; pointer-events:none;
+  }
+  .eyebrow{font-size:12.5px; font-weight:700; letter-spacing:2.5px; color:var(--mint); text-transform:uppercase;}
+  h1.title{
+    font-family:var(--serif); font-weight:900; font-size:clamp(38px,5.4vw,64px); line-height:1.05;
+    margin:18px 0 20px; max-width:820px;
+  }
+  .hero p.lede{font-size:18px; color:#C7D3E3; max-width:640px; line-height:1.6; margin:0 0 34px;}
+  .hero-cta{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:8px;
+    font-weight:600; font-size:14.5px; transition:transform .15s, background .15s, border-color .15s;
+  }
+  .btn-primary{background:var(--mint); color:#06251A;}
+  .btn-primary:hover{transform:translateY(-1px); background:#5CE8AC;}
+  .btn-ghost{border:1px solid rgba(255,255,255,.28); color:#fff;}
+  .btn-ghost:hover{border-color:#fff; transform:translateY(-1px);}
+
+  /* stat strip inside hero */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:64px;
+    background:rgba(255,255,255,.12); border-radius:14px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .stat{background:rgba(255,255,255,.045); padding:22px 20px;}
+  .stat .n{font-family:var(--serif); font-weight:800; font-size:34px; color:#fff;}
+  .stat .l{font-size:11.5px; letter-spacing:1px; text-transform:uppercase; color:var(--mint); font-weight:700; margin-top:4px;}
+  .stat .d{font-size:12.5px; color:#9FB0C6; margin-top:3px;}
+  @media (max-width:720px){ .stats{grid-template-columns:repeat(2,1fr);} }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:84px 0;}
+  .section-head{max-width:680px; margin-bottom:48px;}
+  .section-head .eyebrow{color:var(--teal);}
+  .section-head h2{
+    font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.4vw,36px); margin:12px 0 12px; color:var(--ink);
+  }
+  .section-head p{color:var(--muted); font-size:15.5px; line-height:1.6; margin:0;}
+
+  /* ---------- PROJECT GRID ---------- */
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:980px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:620px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    position:relative; display:flex; flex-direction:column; border:1px solid var(--line); border-radius:14px;
+    padding:26px 24px 22px; background:#fff; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover{
+    transform:translateY(-4px); border-color:transparent;
+    box-shadow:0 14px 34px -14px rgba(11,31,58,.28);
+  }
+  .card .icon{
+    width:46px; height:46px; border-radius:11px; background:var(--navy); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:19px; margin-bottom:16px;
+  }
+  .card .kicker{font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--teal); margin-bottom:6px;}
+  .card h3{font-family:var(--serif); font-size:19px; font-weight:700; margin:0 0 8px; line-height:1.25; color:var(--ink);}
+  .card p.tagline{font-size:13.5px; color:var(--muted); line-height:1.55; margin:0 0 16px; flex-grow:1;}
+  .tags{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px;}
+  .tag{font-size:10.5px; font-weight:600; padding:4px 9px; border-radius:20px; background:var(--card); color:var(--navy); border:1px solid var(--line);}
+  .card-foot{display:flex; align-items:center; justify-content:space-between; font-size:12.5px; font-weight:700; color:var(--navy); border-top:1px solid var(--line); padding-top:14px; margin-top:auto;}
+  .card-foot i{transition:transform .15s;}
+  .card:hover .card-foot i{transform:translateX(3px);}
+  .badge-status{font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:3px 8px; border-radius:5px; background:#EAF7F0; color:#0F8A56;}
+  .badge-needslink{font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:3px 8px; border-radius:5px; background:#FDF0E8; color:#B45A1F;}
+
+  /* ---------- PRACTICE (LLM Council) ---------- */
+  .practice{background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .practice-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
+  @media (max-width:860px){ .practice-grid{grid-template-columns:1fr;} }
+  .stage-list{display:flex; flex-direction:column; gap:16px;}
+  .stage{display:flex; gap:14px;}
+  .stage .num{
+    flex:none; width:30px; height:30px; border-radius:50%; background:var(--navy); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-weight:700; font-size:13px;
+  }
+  .stage h4{margin:0 0 4px; font-size:14.5px; font-weight:700;}
+  .stage p{margin:0; font-size:13px; color:var(--muted); line-height:1.5;}
+  .lens-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .lens{background:var(--navy2); border-radius:10px; padding:16px 16px;}
+  .lens h5{margin:0 0 6px; color:var(--mint); font-family:var(--serif); font-size:14.5px;}
+  .lens p{margin:0; color:#C7D3E3; font-size:11.5px; line-height:1.45;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy); color:#9FB0C6; padding:40px 0; font-size:13px;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  footer a{color:#C7D3E3;}
+  footer a:hover{color:var(--mint);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Off-Hours <span>Engineering</span></div>
+    <div class="navlinks">
+      <ul>
+        <li><a class="navlink" href="#projects">Projects</a></li>
+        <li><a class="navlink" href="#practice">Review Practice</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">A Builder's Record</div>
+    <h1 class="title">Off-Hours Engineering</h1>
+    <p class="lede">Ten self-directed builds across AI, mobile, computer vision, security, and cloud — shipped in personal time. Click any project below to open it directly.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">View the projects <i class="fa-solid fa-arrow-down"></i></a>
+      <a class="btn btn-ghost" href="#practice">How I review my own work</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">10</div><div class="l">Shipped projects</div><div class="d">prototype-to-working software</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">Tech domains</div><div class="d">AI/ML, mobile, CV, security, web, cloud</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">Platforms</div><div class="d">iOS, Android, browser, cloud</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Work hours used</div><div class="d">entirely self-initiated, off-hours</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">The Scope</div>
+      <h2>Ten Builds, One Habit</h2>
+      <p>Every card below links straight to the project — repo, live build, or working demo. Hover to see what it does before you click through.</p>
+    </div>
+
+    <div class="grid" id="project-grid"><!-- cards injected --></div>
+  </div>
+</section>
+
+<section class="practice" id="practice">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Practice, Not a Project</div>
+      <h2>Multi-Lens AI Review, Before Anything Ships</h2>
+      <p>Adapted from Andrej Karpathy's "LLM Council" concept: distinct reasoning lenses review the same work independently, then cross-evaluate to converge on what actually needs to change.</p>
+    </div>
+
+    <div class="practice-grid">
+      <div class="stage-list">
+        <div class="stage">
+          <div class="num">1</div>
+          <div><h4>Independent takes</h4><p>3–4 lenses each critique the same artifact separately — none sees another's take, so they can't converge early.</p></div>
+        </div>
+        <div class="stage">
+          <div class="num">2</div>
+          <div><h4>Cross-evaluation</h4><p>Outputs are anonymized (A/B/C/D) and compared: what each gets right or misses, where they agree (signal) or clash (worth digging into).</p></div>
+        </div>
+        <div class="stage">
+          <div class="num">3</div>
+          <div><h4>Chairman synthesis</h4><p>A final verdict — not a summary. Leads with the strongest point, flags real unresolved tension, ends in one concrete next step.</p></div>
+        </div>
+      </div>
+
+      <div class="lens-grid">
+        <div class="lens"><h5>The Logician</h5><p>Does the conclusion follow the premises? Hunts hidden assumptions and non-sequiturs.</p></div>
+        <div class="lens"><h5>The Pragmatist</h5><p>Does this survive contact with reality? Cost, time, what breaks first if acted on.</p></div>
+        <div class="lens"><h5>The Skeptic</h5><p>Hunts for bias and unsupported claims — cherry-picked evidence, overconfident framing.</p></div>
+        <div class="lens"><h5>The Steelman</h5><p>Builds the strongest opposing case — stops the others from settling into false consensus.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="year"></span> Ankur Gavri — built and hosted on GitHub Pages.</div>
+    <div><a href="#projects">Projects</a> &nbsp;·&nbsp; <a href="#practice">Review practice</a></div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// -----------------------------------------------------------------
+// Project data — REPLACE the "url" field for each project with the
+// real GitHub repo or live demo link. Anything still set to "#"
+// shows a small "add link" badge instead of a status badge so it's
+// obvious at a glance which cards aren't wired up yet.
+// -----------------------------------------------------------------
+const projects = [
+  {
+    icon: "fa-solid fa-robot",
+    kicker: "AI / Conversational",
+    title: "AI Assistants — Chatbot to Jarvis",
+    tagline: "A Groq/Llama-powered Q&A chatbot deployed to iOS and web, plus the architecture and HUD prototype for a full Jarvis-style assistant.",
+    tags: ["Groq API", "Llama 3.3", "Cloudflare Workers", "iOS"],
+    status: "Shipped: live on iOS + web",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-heart-pulse",
+    kicker: "Health / Apple Ecosystem",
+    title: "HealthKit Pattern Detection App",
+    tagline: "A rolling personal-baseline engine with z-score anomaly detection across HealthKit metrics, built as a working SwiftUI + watchOS prototype.",
+    tags: ["Swift", "SwiftUI", "HealthKit", "watchOS"],
+    status: "Status: working iOS + watchOS prototype",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-eye",
+    kicker: "Computer Vision",
+    title: "Facial Recognition Web App",
+    tagline: "OpenCV/LBPH face recognition, rebuilt from a CLI experiment into a full Flask browser app with live webcam enroll and recognize.",
+    tags: ["Python", "OpenCV", "Flask"],
+    status: "Local-only, consent-based recognition",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-chart-line",
+    kicker: "Data / Web Dashboard",
+    title: "Live Portfolio Tracking Dashboard",
+    tagline: "A 22-holding NSE equity dashboard ranking stocks by proximity to their 52-week high, redesigned three times over for finish.",
+    tags: ["HTML/CSS/JS", "Data viz", "NSE data"],
+    status: "Design iterated 3x on user feedback",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-route",
+    kicker: "Web / Cloud",
+    title: "Cloud-Synced Trip Planning Site",
+    tagline: "A live, multi-user family trip site with a shared expense tracker synced in real time via Firebase Firestore, hardened post-launch.",
+    tags: ["Firebase", "GitHub Pages", "Security rules"],
+    status: "Live, hardened, and in active use",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-gamepad",
+    kicker: "Game Development",
+    title: "Two Original Games",
+    tagline: "StarFighter, a Unity/C# space shooter deployed to iPhone, and Battle Station Run, an HTML5 canvas shooter with a synthesized soundtrack.",
+    tags: ["Unity", "C#", "HTML5 Canvas", "Web Audio"],
+    status: "Both games: playable start to finish",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-shield-halved",
+    kicker: "Security Tooling",
+    title: "Cybersecurity Multi-Tool",
+    tagline: "A personal swiss-army-knife app integrating eight threat-intel sources plus local utilities — password/hash gen, JWT decode, CVE lookup.",
+    tags: ["JavaScript", "VirusTotal API", "Shodan API"],
+    status: "Security-reviewed and hardened by its author",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-mobile-screen",
+    kicker: "Security / Mobile",
+    title: "APK Fraud Shield — Android App",
+    tagline: "A Kotlin/Compose app with an SMS link scanner, weighted fraud risk scorer, and a GitHub Actions CI/CD pipeline that builds the APK in the cloud.",
+    tags: ["Kotlin", "Jetpack Compose", "GitHub Actions"],
+    status: "Built, CI-pipelined, and verified running",
+    url: "#"
+  },
+  {
+    icon: "fa-solid fa-terminal",
+    kicker: "Security Education",
+    title: "Browser-Based Attack Sandbox",
+    tagline: "A fully client-side lab simulating brute-force, dictionary, and WiFi cracking attacks, grounded in real hashcat and TOP500 benchmark data.",
+    tags: ["HTML/JS", "Keyspace math", "No live network calls"],
+    status: "100% simulated — zero real attack surface",
+    url: "#"
+  }
+];
+
+const grid = document.getElementById('project-grid');
+grid.innerHTML = projects.map(p => {
+  const needsLink = !p.url || p.url === "#";
+  const badge = needsLink
+    ? '<span class="badge-needslink">Add link</span>'
+    : `<span class="badge-status">${p.status}</span>`;
+  return `
+  <a class="card" href="${p.url}" ${needsLink ? '' : 'target="_blank" rel="noopener"'}>
+    <div class="icon"><i class="${p.icon}"></i></div>
+    <div class="kicker">${p.kicker}</div>
+    <h3>${p.title}</h3>
+    <p class="tagline">${p.tagline}</p>
+    <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+    <div class="card-foot">
+      ${badge}
+      <span>Open <i class="fa-solid fa-arrow-right"></i></span>
+    </div>
+  </a>`;
+}).join('');
+</script>
+
+</body>
+</html>
