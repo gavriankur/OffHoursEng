@@ -125,6 +125,7 @@
   .card:hover .card-foot i{transform:translateX(3px);}
   .badge-status{font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:3px 8px; border-radius:5px; background:#EAF7F0; color:#0F8A56;}
   .badge-needslink{font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:3px 8px; border-radius:5px; background:#FDF0E8; color:#B45A1F;}
+  .badge-private{font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:3px 8px; border-radius:5px; background:#FDEBEC; color:#C0392B;}
 
   /* ---------- PRACTICE (LLM Council) ---------- */
   .practice{background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
@@ -280,7 +281,7 @@ const projects = [
     tagline: "A 22-holding NSE equity dashboard ranking stocks by proximity to their 52-week high, redesigned three times over for finish.",
     tags: ["HTML/CSS/JS", "Data viz", "NSE data"],
     status: "Design iterated 3x on user feedback",
-    url: "#"
+    url: "https://github.com/gavriankur/portfolio"
   },
   {
     icon: "fa-solid fa-route",
@@ -289,16 +290,26 @@ const projects = [
     tagline: "A live, multi-user family trip site with a shared expense tracker synced in real time via Firebase Firestore, hardened post-launch.",
     tags: ["Firebase", "GitHub Pages", "Security rules"],
     status: "Live, hardened, and in active use",
-    url: "#"
+    url: "https://github.com/gavriankur/JodhpurSept2026"
+  },
+  {
+    icon: "fa-solid fa-rocket",
+    kicker: "Game Development",
+    title: "StarFighter",
+    tagline: "A Unity/C# space shooter with a coded ship model, enemy AI, collision system, and touch controls — deployed to a personal iPhone 14 via Xcode.",
+    tags: ["Unity", "C#", "Xcode / iOS build"],
+    status: "Playable start to finish",
+    url: "https://github.com/gavriankur/StarFighter",
+    private: true
   },
   {
     icon: "fa-solid fa-gamepad",
     kicker: "Game Development",
-    title: "Two Original Games",
-    tagline: "StarFighter, a Unity/C# space shooter deployed to iPhone, and Battle Station Run, an HTML5 canvas shooter with a synthesized soundtrack.",
-    tags: ["Unity", "C#", "HTML5 Canvas", "Web Audio"],
-    status: "Both games: playable start to finish",
-    url: "#"
+    title: "Battle Station Run",
+    tagline: "An HTML5 canvas shooter with turret AI, a destructible reactor core, particle effects, and a fully synthesized Web Audio soundtrack.",
+    tags: ["HTML5 Canvas", "Web Audio API"],
+    status: "Playable start to finish",
+    url: "https://github.com/gavriankur/battle-station"
   },
   {
     icon: "fa-solid fa-shield-halved",
@@ -307,7 +318,7 @@ const projects = [
     tagline: "A personal swiss-army-knife app integrating eight threat-intel sources plus local utilities — password/hash gen, JWT decode, CVE lookup.",
     tags: ["JavaScript", "VirusTotal API", "Shodan API"],
     status: "Security-reviewed and hardened by its author",
-    url: "#"
+    url: "https://github.com/gavriankur/CyberSwissArmyKnife"
   },
   {
     icon: "fa-solid fa-mobile-screen",
@@ -316,7 +327,8 @@ const projects = [
     tagline: "A Kotlin/Compose app with an SMS link scanner, weighted fraud risk scorer, and a GitHub Actions CI/CD pipeline that builds the APK in the cloud.",
     tags: ["Kotlin", "Jetpack Compose", "GitHub Actions"],
     status: "Built, CI-pipelined, and verified running",
-    url: "#"
+    url: "https://github.com/gavriankur/FraudDetectionAndroid",
+    private: true
   },
   {
     icon: "fa-solid fa-terminal",
@@ -332,9 +344,14 @@ const projects = [
 const grid = document.getElementById('project-grid');
 grid.innerHTML = projects.map(p => {
   const needsLink = !p.url || p.url === "#";
-  const badge = needsLink
-    ? '<span class="badge-needslink">Add link</span>'
-    : `<span class="badge-status">${p.status}</span>`;
+  let badge;
+  if (needsLink) {
+    badge = '<span class="badge-needslink">Add link</span>';
+  } else if (p.private) {
+    badge = '<span class="badge-private">Repo is private</span>';
+  } else {
+    badge = `<span class="badge-status">${p.status}</span>`;
+  }
   return `
   <a class="card" href="${p.url}" ${needsLink ? '' : 'target="_blank" rel="noopener"'}>
     <div class="icon"><i class="${p.icon}"></i></div>
