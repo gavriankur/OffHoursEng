@@ -132,6 +132,21 @@
   .badge-needslink{font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:3px 8px; border-radius:5px; background:#FDF0E8; color:#B45A1F;}
   .badge-private{font-size:9.5px; font-weight:700; letter-spacing:.4px; padding:3px 8px; border-radius:5px; background:#FDEBEC; color:#C0392B;}
 
+  /* Multi-link card (bucketed games) */
+  .card-multi{cursor:default;}
+  .card-multi:hover{transform:none; box-shadow:none; border-color:var(--line);}
+  .game-links{display:flex; flex-direction:column; gap:6px; margin-bottom:16px;}
+  .game-chip{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    font-size:12.5px; font-weight:600; color:var(--navy); background:var(--card);
+    border:1px solid var(--line); border-radius:8px; padding:9px 12px; transition:border-color .15s, background .15s;
+  }
+  .game-chip:hover{border-color:var(--teal); background:#fff;}
+  .game-chip i{font-size:10.5px; color:var(--muted);}
+  .chip-private{font-size:11px;}
+  .card-foot-static{cursor:default;}
+  .card-multi .card-foot i{transform:none !important;}
+
   /* ---------- PRACTICE (LLM Council) ---------- */
   .practice{background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
   .practice-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
@@ -182,7 +197,7 @@
 
     <div class="stats">
       <div class="stat"><div class="n">10</div><div class="l">Shipped projects</div><div class="d">prototype-to-working software</div></div>
-      <div class="stat"><div class="n">6</div><div class="l">Tech domains</div><div class="d">AI/ML, mobile, CV, security, web, cloud</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">Tech domains</div><div class="d">AI/ML, infra, CV, security, web, games</div></div>
       <div class="stat"><div class="n">4</div><div class="l">Platforms</div><div class="d">iOS, Android, browser, cloud</div></div>
       <div class="stat"><div class="n">0</div><div class="l">Work hours used</div><div class="d">entirely self-initiated, off-hours</div></div>
     </div>
@@ -248,7 +263,7 @@
 // Remove the #version-pill element (and this comment) whenever
 // you're ready to drop the version tag from the live page.
 // -----------------------------------------------------------------
-const SITE_VERSION = "1.0";
+const SITE_VERSION = "1.6";
 document.getElementById('version-pill').textContent = 'v' + SITE_VERSION;
 
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -270,12 +285,12 @@ const projects = [
     url: "#"
   },
   {
-    icon: "fa-solid fa-heart-pulse",
-    kicker: "Health / Apple Ecosystem",
-    title: "HealthKit Pattern Detection App",
-    tagline: "A rolling personal-baseline engine with z-score anomaly detection across HealthKit metrics, built as a working SwiftUI + watchOS prototype.",
-    tags: ["Swift", "SwiftUI", "HealthKit", "watchOS"],
-    status: "Status: working iOS + watchOS prototype",
+    icon: "fa-solid fa-microchip",
+    kicker: "AI Infrastructure",
+    title: "Local LLM Hosting on Apple Silicon",
+    tagline: "Running open models entirely on-device via Ollama on an M3 MacBook Air, plus the architecture worked out for putting a real product on top of it.",
+    tags: ["Ollama", "Apple Silicon (M3)", "Cloudflare", "AWS (evaluated)"],
+    status: "Running locally; hosted deployment scoped",
     url: "#"
   },
   {
@@ -288,41 +303,38 @@ const projects = [
     url: "#"
   },
   {
-    icon: "fa-solid fa-chart-line",
-    kicker: "Data / Web Dashboard",
-    title: "Live Portfolio Tracking Dashboard",
-    tagline: "A 22-holding NSE equity dashboard ranking stocks by proximity to their 52-week high, redesigned three times over for finish.",
-    tags: ["HTML/CSS/JS", "Data viz", "NSE data"],
-    status: "Design iterated 3x on user feedback",
-    url: "https://github.com/gavriankur/portfolio"
+    icon: "fa-solid fa-plane",
+    kicker: "Web / Offline-First",
+    title: "AirTrace — Offline Flight Journey Simulator",
+    tagline: "Doesn't track a plane live — simulates its position from schedule and device clock, entirely offline in airplane mode, with the aircraft rendered as a real MapLibre map layer.",
+    tags: ["Cloudflare Workers", "MapLibre GL JS", "Service Worker"],
+    status: "Live and offline-capable",
+    url: "https://gavriankur.github.io/AirTrace/"
   },
   {
-    icon: "fa-solid fa-route",
-    kicker: "Web / Cloud",
-    title: "Cloud-Synced Trip Planning Site",
-    tagline: "A live, multi-user family trip site with a shared expense tracker synced in real time via Firebase Firestore, hardened post-launch.",
-    tags: ["Firebase", "GitHub Pages", "Security rules"],
-    status: "Live, hardened, and in active use",
-    url: "https://github.com/gavriankur/JodhpurSept2026"
-  },
-  {
-    icon: "fa-solid fa-rocket",
-    kicker: "Game Development",
-    title: "StarFighter",
-    tagline: "A Unity/C# space shooter with a coded ship model, enemy AI, collision system, and touch controls — deployed to a personal iPhone 14 via Xcode.",
-    tags: ["Unity", "C#", "Xcode / iOS build"],
-    status: "Playable start to finish",
-    url: "https://github.com/gavriankur/StarFighter",
-    private: true
+    icon: "fa-solid fa-house-circle-check",
+    kicker: "Web / Property Tech",
+    title: "PropertyLens — Home Inspection App",
+    tagline: "A camera-led move-in/move-out inspection tool that's honest about what it can't see yet — a provider-neutral vision interface that returns an error instead of inventing findings.",
+    tags: ["React", "TypeScript", "Vite", "GitHub Actions"],
+    status: "Live: no fabricated AI results",
+    url: "https://gavriankur.github.io/PropertyLens/"
   },
   {
     icon: "fa-solid fa-gamepad",
     kicker: "Game Development",
-    title: "Battle Station Run",
-    tagline: "An HTML5 canvas shooter with turret AI, a destructible reactor core, particle effects, and a fully synthesized Web Audio soundtrack.",
-    tags: ["HTML5 Canvas", "Web Audio API"],
-    status: "Playable start to finish",
-    url: "https://github.com/gavriankur/battle-station"
+    title: "Six Original Games",
+    tagline: "Retro-style arcade action across native and browser builds — one deployed to iPhone, five playable instantly online. Each link opens that game directly.",
+    tags: ["Unity", "C#", "HTML5 Canvas", "JavaScript"],
+    status: "All six: playable start to finish",
+    links: [
+      { name: "StarFighter", url: "https://gavriankur.github.io/StarFighter/", private: true },
+      { name: "Battle Station Run", url: "https://gavriankur.github.io/battle-station/" },
+      { name: "Bowling", url: "https://gavriankur.github.io/bowling/" },
+      { name: "Sudoku", url: "https://gavriankur.github.io/sudoku/" },
+      { name: "Blockgame", url: "https://gavriankur.github.io/blockgame/" },
+      { name: "EmpiresGame", url: "https://gavriankur.github.io/EmpiresGame/" }
+    ]
   },
   {
     icon: "fa-solid fa-shield-halved",
@@ -331,7 +343,7 @@ const projects = [
     tagline: "A personal swiss-army-knife app integrating eight threat-intel sources plus local utilities — password/hash gen, JWT decode, CVE lookup.",
     tags: ["JavaScript", "VirusTotal API", "Shodan API"],
     status: "Security-reviewed and hardened by its author",
-    url: "https://github.com/gavriankur/CyberSwissArmyKnife"
+    url: "https://gavriankur.github.io/CyberSwissArmyKnife/"
   },
   {
     icon: "fa-solid fa-mobile-screen",
@@ -340,7 +352,7 @@ const projects = [
     tagline: "A Kotlin/Compose app with an SMS link scanner, weighted fraud risk scorer, and a GitHub Actions CI/CD pipeline that builds the APK in the cloud.",
     tags: ["Kotlin", "Jetpack Compose", "GitHub Actions"],
     status: "Built, CI-pipelined, and verified running",
-    url: "https://github.com/gavriankur/FraudDetectionAndroid",
+    url: "https://gavriankur.github.io/FraudDetectionAndroid/",
     private: true
   },
   {
@@ -351,11 +363,42 @@ const projects = [
     tags: ["HTML/JS", "Keyspace math", "No live network calls"],
     status: "100% simulated — zero real attack surface",
     url: "#"
+  },
+  {
+    icon: "fa-solid fa-id-badge",
+    kicker: "Study Tooling",
+    title: "Exam Central — Certification Testing System",
+    tagline: "A self-built practice exam platform covering 9 certifications with 450 original questions, a security-clearance visual theme, and a retry loop that locks in anything missed.",
+    tags: ["HTML/CSS/JS", "Node.js validation", "Zero dependencies"],
+    status: "9 certs, 450 questions, self-validated",
+    url: "#"
   }
 ];
 
 const grid = document.getElementById('project-grid');
 grid.innerHTML = projects.map(p => {
+  // Multi-link card (e.g. the bucketed games entry): render as a div
+  // with individually clickable game-link chips instead of one big link.
+  if (p.links) {
+    const chips = p.links.map(g => `
+      <a class="game-chip" href="${g.url}" target="_blank" rel="noopener">
+        ${g.name}${g.private ? ' <span class="chip-private" title="Repo is private">🔒</span>' : ''}
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>`).join('');
+    return `
+    <div class="card card-multi">
+      <div class="icon"><i class="${p.icon}"></i></div>
+      <div class="kicker">${p.kicker}</div>
+      <h3>${p.title}</h3>
+      <p class="tagline">${p.tagline}</p>
+      <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="game-links">${chips}</div>
+      <div class="card-foot card-foot-static">
+        <span class="badge-status">${p.status}</span>
+      </div>
+    </div>`;
+  }
+
   const needsLink = !p.url || p.url === "#";
   let badge;
   if (needsLink) {
